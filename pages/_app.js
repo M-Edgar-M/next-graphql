@@ -1,7 +1,18 @@
-import '../styles/globals.css'
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import Layout from "./components/Layout";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+const client = new ApolloClient({
+  uri: "https://etmdb.com/graphql",
+  cache: new InMemoryCache(),
+});
 
-export default MyApp
+const MyApp = ({ Component, pageProps }) => {
+  return (
+    <ApolloProvider client={client}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ApolloProvider>
+  );
+};
+export default MyApp;
