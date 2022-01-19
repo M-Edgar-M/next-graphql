@@ -1,7 +1,9 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import Layout from "./components/Layout";
+import Link from "next/link";
+import Layout from "../layouts/Layout";
 
 const client = new ApolloClient({
+  ssrMode: true,
   uri: "https://etmdb.com/graphql",
   cache: new InMemoryCache(),
 });
