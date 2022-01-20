@@ -10,7 +10,7 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
-import { ALL_JOBS } from "../graphql/job/query/ALL_JOBS";
+import { ALL_COMPANIES } from "../graphql/job/query/ALL_COMPANIES";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 
@@ -44,11 +44,10 @@ const useStyles = makeStyles(
   { name: "MuiExample_Component" }
 );
 
-function AllJobs({ onCLick }) {
+function AllCompanies({ onCLick }) {
   const classes = useStyles();
-  const { data, loading } = useQuery(ALL_JOBS);
+  const { data, loading, error } = useQuery(ALL_COMPANIES);
   const router = useRouter();
-  console.log("🚀 ~ file: all-jobs.js ~ line 38 ~ AllJobs ~ router", router);
 
   const handleClick = (id) => {
     console.log(id);
@@ -69,7 +68,7 @@ function AllJobs({ onCLick }) {
           aria-label="simple table"
         >
           <TableBody>
-            {data?.allJobs?.edges.map((item) => (
+            {data?.allCompanies?.edges.map((item) => (
               <TableRow
                 className={classes.tr}
                 key={item.cursor}
@@ -81,7 +80,7 @@ function AllJobs({ onCLick }) {
                   scope="row"
                   onClick={() => handleClick(item.node.id)}
                 >
-                  {item.node.jobTitle}
+                  {item.node.companyName}
                 </TableCell>
               </TableRow>
             ))}
@@ -91,4 +90,4 @@ function AllJobs({ onCLick }) {
     </Grid>
   );
 }
-export default AllJobs;
+export default AllCompanies;

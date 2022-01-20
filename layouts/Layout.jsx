@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { ALL_JOBS } from "../graphql/job/query/ALL_JOBS";
 
@@ -16,47 +17,52 @@ const useStyles = makeStyles(
       boxShadow: "0 3px 5px 2px #ccc",
       color: "#000",
       padding: "30px 30px",
-      overflow: 'hidden'
+      overflow: "hidden",
     },
   },
   { name: "MuiExample_Component" }
 );
 const Layout = ({ children }) => {
+  const router = useRouter();
   const classes = useStyles();
-  const { loading, error, data } = useQuery(ALL_JOBS);
   return (
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      style={{ minHeight: "100vh", width: "100%", overflow: "hidden" }}
+      className={classes.root}
+    >
+      <Link passHref href="/">
+        <Button
+          variant="outlined"
+          sx={{ marginLeft: "5px", alignSelf: "flex-start" }}
+        >
+          HOME
+        </Button>
+      </Link>
 
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        style={{ minHeight: "100vh", width: '100%', overflow: 'hidden' }}
-        className={classes.root}
-      >
-        <Link passHref href="/">
-            <Button  variant="outlined" sx={{ marginLeft: "5px", alignSelf: 'flex-start'}}>
-              HOME
-            </Button>
-          </Link>
-
-
-        
-        <Grid sx={{margin: '20px'}}>
-          <Typography variant="h4">APOLLO/GRAPHQL</Typography>
-          <Link passHref href="/all-jobs">
-            <Button variant="contained" sx={{ marginLeft: "5px" }}>
-              Get All Jobs
-            </Button>
-          </Link>
-          <Link passHref href="/all-cast">
-            <Button variant="contained" sx={{ marginLeft: "5px" }}>
-              Get All Cast
-            </Button>
-          </Link>
-        </Grid>
-          <Grid item spacing={2}>{children}</Grid>
+      <Grid sx={{ margin: "20px" }}>
+        <Typography variant="h4">APOLLO/GRAPHQL</Typography>
+        <Link passHref href="/all-jobs">
+          <Button variant="contained" sx={{ marginLeft: "5px" }}>
+            Get All Jobs
+          </Button>
+        </Link>
+        <Link passHref href="/all-cast">
+          <Button variant="contained" sx={{ marginLeft: "5px" }}>
+            Get All Cast
+          </Button>
+        </Link>
+        <Link passHref href="/all-companies">
+          <Button variant="contained" sx={{ marginLeft: "5px" }}>
+            Get All Companies
+          </Button>
+        </Link>
       </Grid>
+      <Grid item>{children}</Grid>
+    </Grid>
   );
 };
 
