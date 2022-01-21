@@ -10,9 +10,12 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
+import produce from "immer";
 import { ALL_COMPANIES } from "../graphql/company/GET_ALL_COMPANIES";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
+import { useAppContext } from "../layouts/Layout";
 
 const useStyles = makeStyles(
   {
@@ -34,6 +37,7 @@ const useStyles = makeStyles(
       },
     },
     th: {
+      height: '20px',
       cursor: "pointer",
       fontSize: "18px",
       "&:active": {
@@ -44,11 +48,15 @@ const useStyles = makeStyles(
   { name: "MuiExample_Component" }
 );
 
+
 function AllCompanies({ onCLick }) {
+  const { searchRes } = useAppContext();
+  console.log('context', searchRes);
   const classes = useStyles();
-  const { data, loading, error } = useQuery(ALL_COMPANIES, {
+  const { data, loading, error, fetchMore } = useQuery(ALL_COMPANIES, {
       variables: {
           first: 10,
+          after: null,
       }
   });
   const router = useRouter();
@@ -56,6 +64,7 @@ function AllCompanies({ onCLick }) {
   const handleClick = (id) => {
     router.push(`/job/${id}`);
   };
+
   return (
     <Grid
       container
@@ -90,7 +99,28 @@ function AllCompanies({ onCLick }) {
             ))}
           </TableBody>
         </Table>
+
       </TableContainer>
+        <LoadingButton onClick={() => {
+          const { endCursor } = data?.allCompanies.pageInfo;
+          fetchMore({
+            variables: {
+              after: endCursor,
+            },
+            updateQuery: (prevRes, { fetchMoreResult }) => {
+            if(prevRes && prevRes.length !== 0) {
+
+               fetchMoreResult.allCompanies.edges = [
+                ...prevRes.allCompanies.edges,
+                ...fetchMoreResult.allCompanies.edges
+              ];
+            }
+            return fetchMoreResult;
+            }
+          });
+        }} loading={loading} loadingIndicator="Loading..." variant="outlined" sx={{marginTop: '10px'}}>
+        Fetch data
+      </LoadingButton>
     </Grid>
   );
 }

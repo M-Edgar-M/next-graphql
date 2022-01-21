@@ -10,7 +10,9 @@ export const ALL_COMPANIES= gql`
           companyName
           description
         }
-        cursor
+      }
+      pageInfo{
+        endCursor
       }
     }
   }
