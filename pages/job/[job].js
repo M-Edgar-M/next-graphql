@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import Loading from "../../components/Loading";
 import { useRouter } from "next/router";
-import { GET_COMPANIE } from "../../graphql/company/GET_COMPANY";
+import { GET_COMPANY } from "../../graphql/company/GET_COMPANY";
 
 function Job() {
   const { query } = useRouter();
