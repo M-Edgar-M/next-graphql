@@ -10,7 +10,7 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
-import { ALL_COMPANIES } from "../graphql/job/query/ALL_COMPANIES";
+import { ALL_COMPANIES } from "../graphql/company/GET_ALL_COMPANIES";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 
@@ -46,11 +46,15 @@ const useStyles = makeStyles(
 
 function AllCompanies({ onCLick }) {
   const classes = useStyles();
-  const { data, loading, error } = useQuery(ALL_COMPANIES);
+  const { data, loading, error } = useQuery(ALL_COMPANIES, {
+      variables: {
+          first: 10,
+      }
+  });
   const router = useRouter();
 
   const handleClick = (id) => {
-    console.log(id);
+    router.push(`/job/${id}`);
   };
   return (
     <Grid

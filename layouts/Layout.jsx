@@ -1,10 +1,8 @@
-import { useQuery } from "@apollo/client";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React from "react";
-import { ALL_JOBS } from "../graphql/job/query/ALL_JOBS";
+import React, { useState } from "react";
+import Search from "../components/Search";
 
 const useStyles = makeStyles(
   {
@@ -23,7 +21,7 @@ const useStyles = makeStyles(
   { name: "MuiExample_Component" }
 );
 const Layout = ({ children }) => {
-  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState();
   const classes = useStyles();
   return (
     <Grid
@@ -43,8 +41,12 @@ const Layout = ({ children }) => {
         </Button>
       </Link>
 
+      <Search setSearchQuery={setSearchQuery} />
+
       <Grid sx={{ margin: "20px" }}>
-        <Typography variant="h4">APOLLO/GRAPHQL</Typography>
+        <Typography variant="h4" sx={{ textAlign: "center" }}>
+          APOLLO/GRAPHQL
+        </Typography>
         <Link passHref href="/all-jobs">
           <Button variant="contained" sx={{ marginLeft: "5px" }}>
             Get All Jobs

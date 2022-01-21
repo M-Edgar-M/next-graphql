@@ -43,6 +43,10 @@ const useStyles = makeStyles(
   { name: "MuiExample_Component" }
 );
 
+const handleClick = (id) => {
+  console.log(id)
+}
+
 function AllCast() {
     const classes = useStyles();
   const { data, loading } = useQuery(ALL_CAST);
@@ -68,7 +72,7 @@ function AllCast() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 className={classes.tr}
               >
-                <TableCell component="th" scope="row" className={classes.th}>
+                <TableCell component="th" scope="row" className={classes.th} onClick={() => handleClick(item.node.id)}>
                   {item.node.jobTitle}
                 </TableCell>
               </TableRow>
