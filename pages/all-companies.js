@@ -16,6 +16,7 @@ import { ALL_COMPANIES } from "../graphql/company/GET_ALL_COMPANIES";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 import { useAppContext } from "../layouts/Layout";
+// import { withApollo } from "../libs/apollo";
 
 const useStyles = makeStyles(
   {
@@ -53,7 +54,7 @@ function AllCompanies({ onCLick }) {
   const classes = useStyles();
   const { data, loading, error, fetchMore } = useQuery(ALL_COMPANIES, {
     variables: {
-      first: 10,
+      first: 15,
       after: null,
     },
   });
