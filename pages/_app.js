@@ -15,4 +15,4 @@ const MyApp = ({ Component, pageProps }) => {
       </Layout>
   );
 };
-export default withApollo({ssr: true})(MyApp);
+export default withApollo({ssr: false})(MyApp);

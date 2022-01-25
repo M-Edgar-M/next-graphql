@@ -10,5 +10,9 @@ import { Container, Grid } from "@mui/material";
 import Link from "next/link";
 
 export default function Home() {
-  return <div />
+  return <div>
+    <Head>
+    <title>Next-GraphQl</title>
+    </Head>
+  </div>
 }

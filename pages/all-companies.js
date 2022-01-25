@@ -58,6 +58,7 @@ function AllCompanies({ onCLick }) {
       after: null,
     },
   });
+
   const router = useRouter();
 
   const handleClick = (id) => {

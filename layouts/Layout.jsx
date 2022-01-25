@@ -1,4 +1,5 @@
 import { Button, Grid, Typography } from "@mui/material";
+
 import { makeStyles } from "@mui/styles";
 import Link from "next/link";
 import React, { createContext, useContext, useState } from "react";
@@ -8,6 +9,7 @@ const AppContext = createContext();
 const useStyles = makeStyles(
   {
     root: {
+      fontFamily: "Roboto, sans-serif",
       background: "rgb(238,238,238)",
       background:
         "linear-gradient(90deg, rgba(238,238,238,1) 0%, rgba(234,234,242,1) 49%, rgba(201,223,227,1) 100%)",
