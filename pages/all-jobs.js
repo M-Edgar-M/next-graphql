@@ -48,7 +48,6 @@ function AllJobs({ onCLick }) {
   const classes = useStyles();
   const { data, loading } = useQuery(ALL_JOBS);
   const router = useRouter();
-  console.log("🚀 ~ file: all-jobs.js ~ line 38 ~ AllJobs ~ router", router);
 
   const handleClick = (id) => {
     console.log(id);

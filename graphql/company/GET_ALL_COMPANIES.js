@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const ALL_COMPANIES= gql`
+export const ALL_COMPANIES = gql`
   query allCompanies($first: Int, $after: String) {
     allCompanies(first: $first, after: $after) {
       edges {
@@ -11,7 +11,7 @@ export const ALL_COMPANIES= gql`
           description
         }
       }
-      pageInfo{
+      pageInfo {
         endCursor
       }
     }

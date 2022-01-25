@@ -1,21 +1,24 @@
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
+import { relayStylePagination } from "@apollo/client/utilities";
 import Link from "next/link";
 import Layout from "../layouts/Layout";
+
+
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        allCompanies: relayStylePagination(),
+      },
+    },
+  },
+});
 
 const client = new ApolloClient({
   ssrMode: true,
   uri: "https://etmdb.com/graphql",
-  cache: new InMemoryCache(),
+  cache,
 });
-
-// const client = new ApolloClient({
-//   ssrMode: true,
-//   link: createHttpLink({
-//     uri: 'https://etmdb.com/graphql',
-//     credentials: 'same-origin',
-//   }),
-//   cache: new InMemoryCache(),
-// });
 
 const MyApp = ({ Component, pageProps }) => {
   return (

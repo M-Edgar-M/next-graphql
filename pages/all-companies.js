@@ -10,7 +10,7 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
-import LoadingButton from '@mui/lab/LoadingButton';
+import LoadingButton from "@mui/lab/LoadingButton";
 import produce from "immer";
 import { ALL_COMPANIES } from "../graphql/company/GET_ALL_COMPANIES";
 import Loading from "../components/Loading";
@@ -37,7 +37,7 @@ const useStyles = makeStyles(
       },
     },
     th: {
-      height: '20px',
+      height: "20px",
       cursor: "pointer",
       fontSize: "18px",
       "&:active": {
@@ -48,16 +48,14 @@ const useStyles = makeStyles(
   { name: "MuiExample_Component" }
 );
 
-
 function AllCompanies({ onCLick }) {
   const { searchRes } = useAppContext();
-  console.log('context', searchRes);
   const classes = useStyles();
   const { data, loading, error, fetchMore } = useQuery(ALL_COMPANIES, {
-      variables: {
-          first: 10,
-          after: null,
-      }
+    variables: {
+      first: 10,
+      after: null,
+    },
   });
   const router = useRouter();
 
@@ -81,10 +79,10 @@ function AllCompanies({ onCLick }) {
           aria-label="simple table"
         >
           <TableBody>
-            {data?.allCompanies?.edges.map((item) => (
+            {data?.allCompanies?.edges.map((item, i) => (
               <TableRow
                 className={classes.tr}
-                key={item.cursor}
+                key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell
@@ -99,26 +97,21 @@ function AllCompanies({ onCLick }) {
             ))}
           </TableBody>
         </Table>
-
       </TableContainer>
-        <LoadingButton onClick={() => {
+      <LoadingButton
+        onClick={() => {
           const { endCursor } = data?.allCompanies.pageInfo;
           fetchMore({
             variables: {
               after: endCursor,
             },
-            updateQuery: (prevRes, { fetchMoreResult }) => {
-            if(prevRes && prevRes.length !== 0) {
-
-               fetchMoreResult.allCompanies.edges = [
-                ...prevRes.allCompanies.edges,
-                ...fetchMoreResult.allCompanies.edges
-              ];
-            }
-            return fetchMoreResult;
-            }
           });
-        }} loading={loading} loadingIndicator="Loading..." variant="outlined" sx={{marginTop: '10px'}}>
+        }}
+        loading={loading}
+        loadingIndicator="Loading..."
+        variant="outlined"
+        sx={{ marginTop: "10px" }}
+      >
         Fetch data
       </LoadingButton>
     </Grid>
