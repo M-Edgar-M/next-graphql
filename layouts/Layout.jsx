@@ -15,17 +15,15 @@ const useStyles = makeStyles(
     LIGHT_THEME: LIGHT_THEME,
     DARK_THEME: DARK_THEME,
     buttonDark: {
-      ...DARK_THEME.button
+      ...DARK_THEME.button,
     },
 
     buttonLignt: {
-      ...LIGHT_THEME.button
-    }
+      ...LIGHT_THEME.button,
+    },
   },
   { name: "MuiExample_Component" }
 );
-
-
 
 const Layout = ({ children }) => {
   const [searchRes, setSearchRes] = useState();
@@ -34,7 +32,7 @@ const Layout = ({ children }) => {
   const classes = useStyles();
 
   const handleThemeChange = (e) => {
-    setTheme(e.target.checked)
+    setTheme(e.target.checked);
   };
 
   return (
@@ -58,10 +56,7 @@ const Layout = ({ children }) => {
         </Link>
         <FormControlLabel
           control={
-            <MaterialUISwitch
-              sx={{ m: 1 }}
-              onChange={handleThemeChange}
-            />
+            <MaterialUISwitch sx={{ m: 1 }} onChange={handleThemeChange} />
           }
           label={theme ? "Dark" : "Light"}
           sx={{ alignSelf: "flex-end", marginTop: "-45px" }}
@@ -74,17 +69,29 @@ const Layout = ({ children }) => {
             APOLLO/GRAPHQL
           </Typography>
           <Link passHref href="/all-jobs">
-            <Button variant="contained" className={theme ? classes.buttonDark : classes.buttonLignt}  sx={{ marginLeft: "5px" }}>
+            <Button
+              variant="contained"
+              className={theme ? classes.buttonDark : classes.buttonLignt}
+              sx={{ marginLeft: "5px" }}
+            >
               Get All Jobs
             </Button>
           </Link>
           <Link passHref href="/all-cast">
-            <Button variant="contained" className={theme ? classes.buttonDark : classes.buttonLignt}  sx={{ marginLeft: "5px" }}>
+            <Button
+              variant="contained"
+              className={theme ? classes.buttonDark : classes.buttonLignt}
+              sx={{ marginLeft: "5px" }}
+            >
               Get All Cast
             </Button>
           </Link>
           <Link passHref href="/all-companies">
-            <Button variant="contained" className={theme ? classes.buttonDark : classes.buttonLignt}  sx={{ marginLeft: "5px" }}>
+            <Button
+              variant="contained"
+              className={theme ? classes.buttonDark : classes.buttonLignt}
+              sx={{ marginLeft: "5px" }}
+            >
               Get All Companies
             </Button>
           </Link>
