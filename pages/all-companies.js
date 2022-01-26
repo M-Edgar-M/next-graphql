@@ -16,7 +16,7 @@ import { ALL_COMPANIES } from "../graphql/company/GET_ALL_COMPANIES";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 import { useAppContext } from "../layouts/Layout";
-// import { withApollo } from "../libs/apollo";
+import { useState } from "react";
 
 const useStyles = makeStyles(
   {
@@ -52,12 +52,15 @@ const useStyles = makeStyles(
 function AllCompanies({ onCLick }) {
   const { searchRes } = useAppContext();
   const classes = useStyles();
-  const { data, loading, error, fetchMore } = useQuery(ALL_COMPANIES, {
-    variables: {
-      first: 15,
-      after: null,
-    },
-  });
+  const { data, loading, networkStatus, error, fetchMore } = useQuery(
+    ALL_COMPANIES,
+    {
+      variables: {
+        first: 15,
+        after: null,
+      },
+    }
+  );
 
   const router = useRouter();
 
@@ -109,7 +112,7 @@ function AllCompanies({ onCLick }) {
             },
           });
         }}
-        loading={loading}
+        loading={networkStatus && (networkStatus === 3 || networkStatus === 1)}
         loadingIndicator="Loading..."
         variant="outlined"
         sx={{ marginTop: "10px" }}

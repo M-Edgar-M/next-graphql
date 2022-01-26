@@ -4,6 +4,7 @@ import { makeStyles } from "@mui/styles";
 import Link from "next/link";
 import React, { createContext, useContext, useState } from "react";
 import Search from "../components/Search";
+import { withApollo } from "../libs/apollo";
 
 const AppContext = createContext();
 const useStyles = makeStyles(
@@ -75,7 +76,7 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+export default withApollo({ ssr: true })(Layout);
 
 export function useAppContext() {
   return useContext(AppContext);

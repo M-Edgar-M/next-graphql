@@ -1,5 +1,4 @@
 import Layout from "../layouts/Layout";
-import { withApollo } from "../libs/apollo";
 
 const MyApp = ({ Component, pageProps }) => {
   return (
@@ -8,4 +7,4 @@ const MyApp = ({ Component, pageProps }) => {
       </Layout>
   );
 };
-export default withApollo({ssr: false})(MyApp);
+export default MyApp;
