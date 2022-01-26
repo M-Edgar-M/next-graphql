@@ -96,7 +96,7 @@ function AllCompanies({ onCLick }) {
                   scope="row"
                   onClick={() => handleClick(item.node.id)}
                 >
-                  {item.node.companyName}
+                  <a>{item.node.companyName}</a>
                 </TableCell>
               </TableRow>
             ))}
@@ -117,7 +117,7 @@ function AllCompanies({ onCLick }) {
         variant="outlined"
         sx={{ marginTop: "10px" }}
       >
-        Fetch data
+        <a>Fetch data</a>
       </LoadingButton>
     </Grid>
   );
