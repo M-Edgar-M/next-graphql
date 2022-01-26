@@ -1,10 +1,3 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  createHttpLink,
-  InMemoryCache,
-} from "@apollo/client";
-import { relayStylePagination } from "@apollo/client/utilities";
 import Layout from "../layouts/Layout";
 import { withApollo } from "../libs/apollo";
 

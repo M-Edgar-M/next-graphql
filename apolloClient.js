@@ -1,4 +1,5 @@
-import { ApolloClient, HttpLink, fetch } from "@apollo/client";
+import { ApolloClient, HttpLink } from "@apollo/client";
+import fetch from 'node-fetch';
 
 import { InMemoryCache } from "@apollo/client/cache";
 import { relayStylePagination } from "@apollo/client/utilities";
@@ -19,7 +20,7 @@ export function createApolloClient(initialState, ctx) {
     link: new HttpLink({
       uri: "https://etmdb.com/graphql",
       credentials: "same-origin",
-      fetch,
+      fetch: fetch,
     }),
     cache: cache || new InMemoryCache().restore(initialState),
   });
