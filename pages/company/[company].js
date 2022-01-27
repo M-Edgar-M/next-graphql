@@ -10,7 +10,6 @@ import Link from "next/link";
 import Loading from "../../components/Loading";
 import { useRouter } from "next/router";
 import { GET_COMPANY } from "../../graphql/company/GET_COMPANY";
-import { useContext } from "react";
 
 function Company() {
   const { query } = useRouter();
@@ -51,7 +50,7 @@ function Company() {
       </Card>
     );
   }
-  if (error) return <Typography>Ooops Error Has Occured!!</Typography>
+  if (error) return <Typography>Ooops Error Has Occured!!</Typography>;
   return <Loading />;
 }
 export default Company;

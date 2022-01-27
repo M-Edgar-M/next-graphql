@@ -1,9 +1,4 @@
-import {
-  Button,
-  FormControlLabel,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Button, FormControlLabel, Grid, Typography } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
 import Link from "next/link";
@@ -32,8 +27,9 @@ const useStyles = makeStyles(
 
 const Layout = ({ children }) => {
   const [searchRes, setSearchRes] = useState();
-  const [theme, setTheme] = useState();
-  const sharedContext = { searchRes };
+  const [theme, setTheme] = useState(false);
+
+  const sharedContext = { searchRes, theme: theme };
   const classes = useStyles();
 
   const handleThemeChange = (e) => {

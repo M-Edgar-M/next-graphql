@@ -10,6 +10,7 @@ export const GET_JOB = gql`
       slug
       genderMf
       ageLevel
+      description
     }
   }
 `;
