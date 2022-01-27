@@ -12,6 +12,7 @@ export default function Home() {
   return <div>
     <Head>
     <title>Next-GraphQl</title>
+    <link rel="icon" href="icon.png" type="image/x-icon" />
     </Head>
   </div>
 }

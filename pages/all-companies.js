@@ -11,7 +11,6 @@ import {
   TableRow,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import produce from "immer";
 import { ALL_COMPANIES } from "../graphql/company/GET_ALL_COMPANIES";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
@@ -65,7 +64,7 @@ function AllCompanies({ onCLick }) {
   const router = useRouter();
 
   const handleClick = (id) => {
-    router.push(`/job/${id}`);
+    router.push(`/company/${id}`);
   };
 
   return (
@@ -103,22 +102,26 @@ function AllCompanies({ onCLick }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <LoadingButton
-        onClick={() => {
-          const { endCursor } = data?.allCompanies.pageInfo;
-          fetchMore({
-            variables: {
-              after: endCursor,
-            },
-          });
-        }}
-        loading={networkStatus && (networkStatus === 3 || networkStatus === 1)}
-        loadingIndicator="Loading..."
-        variant="outlined"
-        sx={{ marginTop: "10px" }}
-      >
-        <a>Fetch data</a>
-      </LoadingButton>
+      <a>
+        <LoadingButton
+          onClick={() => {
+            const { endCursor } = data?.allCompanies.pageInfo;
+            fetchMore({
+              variables: {
+                after: endCursor,
+              },
+            });
+          }}
+          loading={
+            networkStatus && (networkStatus === 3 || networkStatus === 1)
+          }
+          loadingIndicator="Loading..."
+          variant="outlined"
+          sx={{ marginTop: "10px" }}
+        >
+          Fetch data
+        </LoadingButton>
+      </a>
     </Grid>
   );
 }

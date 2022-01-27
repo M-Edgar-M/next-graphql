@@ -6,44 +6,52 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-
+import Link from "next/link";
 import Loading from "../../components/Loading";
 import { useRouter } from "next/router";
-import { GET_JOB } from "../../graphql/job/query/GET_JOB";
+import { GET_COMPANY } from "../../graphql/company/GET_COMPANY";
+import { useContext } from "react";
 
-function Job() {
+function Company() {
   const { query } = useRouter();
-  const { data, loading, error } = useQuery(GET_JOB, {
+  const { data, loading, error } = useQuery(GET_COMPANY, {
     variables: {
-      id: query.job,
+      id: query.company,
     },
   });
 
-  const { job } = data || {};
+  const { company } = data || {};
 
   if (data && data.length !== 0 && loading === false) {
     return (
       <Card sx={{ minWidth: 500 }}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            <b>Job Title</b>
+            <b>Company Name</b>
           </Typography>
           <Typography variant="h5" component="div">
-            {job.jobTitle}
+            {company.companyName}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            <b>Location:</b> {job.location}
+            <b>slug:</b> {company.slug}
           </Typography>
           <Typography variant="body2">
-            <b>Production Type:</b>
+            <b>description:</b>
             <br />
-            {job.productionType}
+            {company.description}
           </Typography>
         </CardContent>
+        <CardActions>
+          <Link passHref href="https://www.facebook.com/etmdb/">
+            <Button size="small" target="_blank">
+              Learn More
+            </Button>
+          </Link>
+        </CardActions>
       </Card>
     );
   }
-  if (error) return <Typography>Ooops Error Has Occured!!</Typography>;
+  if (error) return <Typography>Ooops Error Has Occured!!</Typography>
   return <Loading />;
 }
-export default Job;
+export default Company;

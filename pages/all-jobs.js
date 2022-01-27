@@ -50,7 +50,7 @@ function AllJobs({ onCLick }) {
   const router = useRouter();
 
   const handleClick = (id) => {
-    console.log(id);
+    router.push(`/job/${id}`);
   };
   return (
     <Grid
