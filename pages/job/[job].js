@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { GET_JOB } from "../../graphql/job/query/GET_JOB";
 import { makeStyles } from "@mui/styles";
 import { useAppContext } from "../../layouts/Layout";
+import { withApollo } from "../../libs/apollo";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Job() {
-  const { theme } = useAppContext();
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 
@@ -87,4 +87,4 @@ function Job() {
   if (error) return <Typography>Ooops Error Has Occured!!</Typography>;
   return <Loading />;
 }
-export default Job;
+export default withApollo({ ssr: true })(Job);

@@ -9,13 +9,16 @@ import {
   TableCell,
   TableContainer,
   TableRow,
+  Tooltip,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { ALL_COMPANIES } from "../graphql/company/GET_ALL_COMPANIES";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 import { useAppContext } from "../layouts/Layout";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { withApollo } from "../libs/apollo";
 
 const useStyles = makeStyles(
   {
@@ -49,23 +52,24 @@ const useStyles = makeStyles(
 );
 
 function AllCompanies({ onCLick }) {
-  const { searchRes } = useAppContext();
+  const router = useRouter();
+  console.log(
+    "🚀 ~ file: all-companies.js ~ line 54 ~ AllCompanies ~ router",
+    router
+  );
+  const [page, setPage] = useState(Number(router.query.page || 1));
   const classes = useStyles();
   const { data, loading, networkStatus, error, fetchMore } = useQuery(
     ALL_COMPANIES,
     {
       variables: {
-        first: 15,
+        first: page * 15,
         after: null,
       },
+      notifyOnNetworkStatusChange: true,
     }
   );
-
-  const router = useRouter();
-
-  const handleClick = (id) => {
-    router.push(`/company/${id}`);
-  };
+  const { hasNextPage } = data?.allCompanies.pageInfo || {};
 
   return (
     <Grid
@@ -82,47 +86,65 @@ function AllCompanies({ onCLick }) {
           sx={{ minWidth: 650, minHeight: "100vh" }}
           aria-label="simple table"
         >
-          <TableBody>
+          <TableBody sx={{ display: "flex", flexDirection: "column" }}>
             {data?.allCompanies?.edges.map((item, i) => (
-              <TableRow
-                className={classes.tr}
+              <Link
                 key={i}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                href={`/company/${item.node.id}`}
+                passHref
+                sx={{ textDecoration: "none" }}
               >
-                <TableCell
-                  component="th"
-                  className={classes.th}
-                  scope="row"
-                  onClick={() => handleClick(item.node.id)}
-                >
-                  <a>{item.node.companyName}</a>
-                </TableCell>
-              </TableRow>
+                <a className={classes.tr} style={{ textDecoration: "none" }}>
+                  <TableRow
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell
+                      component="th"
+                      className={classes.th}
+                      scope="row"
+                    >
+                      <a>{item.node.companyName}</a>
+                    </TableCell>
+                  </TableRow>
+                </a>
+              </Link>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <a>
-        <LoadingButton
-          onClick={() => {
-            const { endCursor } = data?.allCompanies.pageInfo;
-            fetchMore({
-              variables: {
-                after: endCursor,
-              },
-            });
-          }}
-          loading={
-            networkStatus && (networkStatus === 3 || networkStatus === 1)
-          }
-          loadingIndicator="Loading..."
-          variant="outlined"
-          sx={{ marginTop: "10px" }}
-        >
-          Fetch data
-        </LoadingButton>
-      </a>
+      <Link
+        href={`all-companies?page=${page + 1}`}
+        scroll={false}
+        shallow={true}
+        passHref
+      >
+        <Tooltip title={!hasNextPage && "No More Data"}>
+          <span>
+            <LoadingButton
+              onClick={() => {
+                setPage(Number(page) + 1);
+                const { endCursor } = data?.allCompanies.pageInfo;
+                fetchMore({
+                  variables: {
+                    first: page * 5,
+                    after: endCursor,
+                  },
+                });
+              }}
+              loading={
+                networkStatus && (networkStatus === 3 || networkStatus === 1)
+              }
+              loadingIndicator="Loading..."
+              variant="outlined"
+              sx={{ marginTop: "10px" }}
+              disabled={!hasNextPage}
+            >
+              Fetch data
+            </LoadingButton>
+          </span>
+        </Tooltip>
+      </Link>
     </Grid>
   );
 }
-export default AllCompanies;
+export default withApollo({ ssr: true })(AllCompanies);

@@ -13,6 +13,7 @@ export const ALL_COMPANIES = gql`
       }
       pageInfo {
         endCursor
+        hasNextPage
       }
     }
   }

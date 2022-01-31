@@ -12,6 +12,10 @@ export const ALL_JOBS = gql`
         }
         cursor
       }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
     }
   }
 `;

@@ -72,7 +72,7 @@ const Layout = ({ setState, children }) => {
           checked={Boolean(theme)}
         />
 
-        <Search setSearchRes={setSearchRes} />
+        {/* <Search setSearchRes={setSearchRes} /> */}
 
         <Grid sx={{ margin: "20px" }}>
           <Typography variant="h4" sx={{ textAlign: "center" }}>
@@ -112,7 +112,7 @@ const Layout = ({ setState, children }) => {
   );
 };
 
-export default withApollo({ ssr: true })(Layout);
+export default Layout;
 
 export function useAppContext() {
   return useContext(AppContext);

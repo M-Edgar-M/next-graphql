@@ -12,6 +12,8 @@ import { makeStyles } from "@mui/styles";
 import { useQuery } from "@apollo/client";
 import { ALL_CAST } from "../graphql/job/query/ALL_CAST";
 import Loading from "../components/Loading";
+import { withApollo } from "../libs/apollo";
+import { TurnedIn } from "@mui/icons-material";
 
 const useStyles = makeStyles(
   {
@@ -84,4 +86,4 @@ function AllCast() {
   );
 }
 
-export default AllCast;
+export default withApollo({ssr:true})(AllCast);

@@ -1,4 +1,5 @@
 const debounce = require("debounce");
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { makeStyles } from "@mui/styles";
 
@@ -11,10 +12,14 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 import { ALL_JOBS } from "../graphql/job/query/ALL_JOBS";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 import { GET_JOB } from "../graphql/job/query/GET_JOB";
+import { withApollo } from "../libs/apollo";
+import Link from "next/link";
+import { LoadingButton } from "@mui/lab";
 
 const useStyles = makeStyles(
   {
@@ -47,9 +52,21 @@ const useStyles = makeStyles(
 );
 
 function AllJobs() {
-  const classes = useStyles();
-  const { data, loading, client } = useQuery(ALL_JOBS);
   const router = useRouter();
+  const [page, setPage] = useState(Number(router.query.page || 1));
+  const classes = useStyles();
+  const { data, loading, client, networkStatus, fetchMore } = useQuery(
+    ALL_JOBS,
+    {
+      variables: {
+        first: page * 15,
+        after: null,
+      },
+      notifyOnNetworkStatusChange: true,
+    }
+  );
+
+  const { hasNextPage } = data?.allJobs.pageInfo || {};
 
   const handleMouseOver = (jobId) =>
     client.query({
@@ -59,9 +76,6 @@ function AllJobs() {
       },
     });
   const timeOut = debounce(handleMouseOver, 1200);
-  const handleClick = (id) => {
-    router.push(`/job/${id}`);
-  };
   return (
     <Grid
       container
@@ -77,29 +91,64 @@ function AllJobs() {
           sx={{ minWidth: 650, minHeight: "100vh" }}
           aria-label="simple table"
         >
-          <TableBody>
+          <TableBody sx={{ display: "flex", flexDirection: "column" }}>
             {data?.allJobs?.edges.map((item) => (
-              <TableRow
-                className={classes.tr}
-                key={item.cursor}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                onMouseOver={() => timeOut(handleMouseOver(item.node.id), 1200)}
-              >
-                <TableCell
-                  component="th"
-                  className={classes.th}
-                  scope="row"
-                  onClick={() => handleClick(item.node.id)}
-                >
-                  {item.node.jobTitle}
-                </TableCell>
-              </TableRow>
+              <Link href={`/job/${item.node.id}`} passHref key={item.cursor}>
+                <a className={classes.tr} style={{ textDecoration: "none" }}>
+                  <TableRow
+                    className={classes.tr}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    onMouseOver={() =>
+                      timeOut(handleMouseOver(item.node.id), 1200)
+                    }
+                  >
+                    <TableCell
+                      component="th"
+                      className={classes.th}
+                      scope="row"
+                    >
+                      {item.node.jobTitle}
+                    </TableCell>
+                  </TableRow>
+                </a>
+              </Link>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <Link
+        href={`all-jobs?page=${page + 1}`}
+        scroll={false}
+        shallow={true}
+        passHref
+      >
+        <Tooltip title={!hasNextPage && "No More Data"}>
+          <span>
+            <LoadingButton
+              onClick={() => {
+                setPage(Number(page) + 1);
+                const { endCursor } = data?.allJobs.pageInfo;
+                fetchMore({
+                  variables: {
+                    first: page * 5,
+                    after: endCursor,
+                  },
+                });
+              }}
+              loading={
+                networkStatus && (networkStatus === 3 || networkStatus === 1)
+              }
+              disabled={!hasNextPage}
+              loadingIndicator="Loading..."
+              variant="outlined"
+              sx={{ marginTop: "10px" }}
+            >
+              Fetch data
+            </LoadingButton>
+          </span>
+        </Tooltip>
+      </Link>
     </Grid>
   );
 }
-export default AllJobs;
-``
+export default withApollo({ ssr: true })(AllJobs);
