@@ -2,11 +2,12 @@ import { Button, FormControlLabel, Grid, Typography } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
 import Link from "next/link";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import Search from "../components/Search";
 import { MaterialUISwitch } from "../features/mui/muiSwitchBtn";
 import { DARK_THEME } from "../features/utils/DARK_THEME";
 import { LIGHT_THEME } from "../features/utils/LIGHT_THEME";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import { withApollo } from "../libs/apollo";
 
 const AppContext = createContext();
@@ -28,6 +29,12 @@ const useStyles = makeStyles(
 const Layout = ({ setState, children }) => {
   const [searchRes, setSearchRes] = useState();
   const [theme, setTheme] = useState(false);
+  // const [theme, setTheme] = useLocalStorage('theme', false);
+  useEffect(() => {
+    setState(Boolean(theme));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theme]);
+
   setState(theme);
 
   const sharedContext = { searchRes, theme: theme };
@@ -36,7 +43,6 @@ const Layout = ({ setState, children }) => {
   const handleThemeChange = (e) => {
     setTheme(e.target.checked);
   };
-
 
   return (
     <AppContext.Provider value={sharedContext}>
@@ -63,6 +69,7 @@ const Layout = ({ setState, children }) => {
           }
           label={theme ? "Dark" : "Light"}
           sx={{ alignSelf: "flex-end", marginTop: "-45px" }}
+          checked={Boolean(theme)}
         />
 
         <Search setSearchRes={setSearchRes} />

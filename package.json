@@ -17,6 +17,7 @@
     "@mui/material": "^5.3.0",
     "@mui/styles": "^5.3.0",
     "babel-preset-next": "^1.4.0",
+    "debounce": "^1.2.1",
     "graphql": "^16.2.0",
     "graphql-react": "^17.0.0",
     "immer": "^9.0.12",

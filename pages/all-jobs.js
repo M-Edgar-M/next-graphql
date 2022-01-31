@@ -1,3 +1,4 @@
+const debounce = require("debounce");
 import { useQuery } from "@apollo/client";
 import { makeStyles } from "@mui/styles";
 
@@ -13,6 +14,7 @@ import {
 import { ALL_JOBS } from "../graphql/job/query/ALL_JOBS";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
+import { GET_JOB } from "../graphql/job/query/GET_JOB";
 
 const useStyles = makeStyles(
   {
@@ -46,9 +48,17 @@ const useStyles = makeStyles(
 
 function AllJobs() {
   const classes = useStyles();
-  const { data, loading } = useQuery(ALL_JOBS);
+  const { data, loading, client } = useQuery(ALL_JOBS);
   const router = useRouter();
 
+  const handleMouseOver = (jobId) =>
+    client.query({
+      query: GET_JOB,
+      variables: {
+        id: jobId,
+      },
+    });
+  const timeOut = debounce(handleMouseOver, 1200);
   const handleClick = (id) => {
     router.push(`/job/${id}`);
   };
@@ -73,9 +83,7 @@ function AllJobs() {
                 className={classes.tr}
                 key={item.cursor}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                onMouseOver={(e) => {
-                  console.log(e);
-                }}
+                onMouseOver={() => timeOut(handleMouseOver(item.node.id), 1200)}
               >
                 <TableCell
                   component="th"
@@ -94,3 +102,4 @@ function AllJobs() {
   );
 }
 export default AllJobs;
+``
