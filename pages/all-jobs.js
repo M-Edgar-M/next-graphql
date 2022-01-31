@@ -44,7 +44,7 @@ const useStyles = makeStyles(
   { name: "MuiExample_Component" }
 );
 
-function AllJobs({ onCLick }) {
+function AllJobs() {
   const classes = useStyles();
   const { data, loading } = useQuery(ALL_JOBS);
   const router = useRouter();
@@ -73,6 +73,9 @@ function AllJobs({ onCLick }) {
                 className={classes.tr}
                 key={item.cursor}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                onMouseOver={(e) => {
+                  console.log(e);
+                }}
               >
                 <TableCell
                   component="th"
