@@ -25,9 +25,10 @@ const useStyles = makeStyles(
   { name: "MuiExample_Component" }
 );
 
-const Layout = ({ children }) => {
+const Layout = ({ setState, children }) => {
   const [searchRes, setSearchRes] = useState();
   const [theme, setTheme] = useState(false);
+  setState(theme);
 
   const sharedContext = { searchRes, theme: theme };
   const classes = useStyles();
@@ -35,6 +36,7 @@ const Layout = ({ children }) => {
   const handleThemeChange = (e) => {
     setTheme(e.target.checked);
   };
+
 
   return (
     <AppContext.Provider value={sharedContext}>

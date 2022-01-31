@@ -19,10 +19,6 @@ import { useAppContext } from "../../layouts/Layout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.dark,
-    margin: "0 25px",
-  },
-  ligntMode: {
     backgroundColor: theme.palette.background.default,
     margin: "0 25px",
   },
@@ -51,7 +47,7 @@ function Job() {
         <Accordion
           expanded={expanded === "panel1"}
           onChange={handleChange("panel1")}
-          className={theme ? classes.ligntMode : classes.root}
+          className={classes.root}
           sx={{ margin: "0 auto" }}
         >
           <AccordionSummary
