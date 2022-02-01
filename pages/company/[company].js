@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { GET_COMPANY } from "../../graphql/company/GET_COMPANY";
 import { withApollo } from "../../libs/apollo";
 import Head from "next/head";
+import Image from "next/image";
 
 function Company() {
   const { query } = useRouter();
@@ -29,7 +30,7 @@ function Company() {
       <>
         <Head>
           <title>Company</title>
-          <meta property="og:title" content="Company" />
+          <meta property="og:title" content={company?.companyName} />
           <meta
             property="og:url"
             content={`http://localhost:3000/company/${companyId}`}
