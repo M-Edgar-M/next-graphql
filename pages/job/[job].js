@@ -17,6 +17,7 @@ import { GET_JOB } from "../../graphql/job/query/GET_JOB";
 import { makeStyles } from "@mui/styles";
 import { useAppContext } from "../../layouts/Layout";
 import { withApollo } from "../../libs/apollo";
+import Head from "next/head";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +45,18 @@ function Job() {
   if (data && data.length !== 0 && loading === false) {
     return (
       <div>
+        <Head>
+          <title>Company</title>
+          <meta property="og:title" content={job?.jobTitle} />
+          <meta
+            property="og:url"
+            content={`http://localhost:3000/company/${query.job}`}
+          />
+          <meta
+            property="og:image"
+            content="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/GraphQL_Logo.svg/1200px-GraphQL_Logo.svg.png"
+          />
+        </Head>
         <Accordion
           expanded={expanded === "panel1"}
           onChange={handleChange("panel1")}
