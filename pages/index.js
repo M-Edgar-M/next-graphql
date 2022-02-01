@@ -11,6 +11,7 @@ export default function Home() {
       <Head>
         <title>Next-GraphQl</title>
         <meta property="og:title" content="Next-GraphQl" />
+        <meta property="og:type" content="website" />
         <meta property="og:url" content="https://next-graphql-nu.vercel.app/" />
         <meta
           property="og:image"
