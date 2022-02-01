@@ -87,15 +87,6 @@ const Layout = ({ setState, children }) => {
               Get All Jobs
             </Button>
           </Link>
-          <Link passHref href="/all-cast">
-            <Button
-              variant="contained"
-              className={theme ? classes.buttonDark : classes.buttonLignt}
-              sx={{ marginLeft: "5px" }}
-            >
-              Get All Cast
-            </Button>
-          </Link>
           <Link passHref href="/all-companies">
             <Button
               variant="contained"

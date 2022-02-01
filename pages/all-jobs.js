@@ -8,18 +8,18 @@ import {
   Paper,
   Table,
   TableBody,
+  Divider,
   TableCell,
   TableContainer,
   TableRow,
 } from "@mui/material";
-import Tooltip from "@mui/material/Tooltip";
 import { ALL_JOBS } from "../graphql/job/query/ALL_JOBS";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 import { GET_JOB } from "../graphql/job/query/GET_JOB";
 import { withApollo } from "../libs/apollo";
 import Link from "next/link";
-import { LoadingButton } from "@mui/lab";
+import FetchMore from "../components/FetchMore";
 
 const useStyles = makeStyles(
   {
@@ -93,61 +93,44 @@ function AllJobs() {
         >
           <TableBody sx={{ display: "flex", flexDirection: "column" }}>
             {data?.allJobs?.edges.map((item) => (
-              <Link href={`/job/${item.node.id}`} passHref key={item.cursor}>
-                <a className={classes.tr} style={{ textDecoration: "none" }}>
-                  <TableRow
-                    className={classes.tr}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    onMouseOver={() =>
-                      timeOut(handleMouseOver(item.node.id), 1200)
-                    }
-                  >
-                    <TableCell
-                      component="th"
-                      className={classes.th}
-                      scope="row"
+              <>
+                <Link href={`/job/${item.node.id}`} passHref key={item.cursor}>
+                  <a className={classes.tr} style={{ textDecoration: "none" }}>
+                    <TableRow
+                      className={classes.tr}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      onMouseOver={() =>
+                        timeOut(handleMouseOver(item.node.id), 1200)
+                      }
                     >
-                      {item.node.jobTitle}
-                    </TableCell>
-                  </TableRow>
-                </a>
-              </Link>
+                      <TableCell
+                        component="th"
+                        className={classes.th}
+                        scope="row"
+                      >
+                        {item.node.jobTitle}
+                      </TableCell>
+                    </TableRow>
+                  </a>
+                </Link>
+                <Divider light />
+              </>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Link
-        href={`all-jobs?page=${page + 1}`}
-        scroll={false}
-        shallow={true}
-        passHref
-      >
-        <Tooltip title={!hasNextPage && "No More Data"}>
-          <span>
-            <LoadingButton
-              onClick={() => {
-                setPage(Number(page) + 1);
-                const { endCursor } = data?.allJobs.pageInfo;
-                fetchMore({
-                  variables: {
-                    first: page * 5,
-                    after: endCursor,
-                  },
-                });
-              }}
-              loading={
-                networkStatus && (networkStatus === 3 || networkStatus === 1)
-              }
-              disabled={!hasNextPage}
-              loadingIndicator="Loading..."
-              variant="outlined"
-              sx={{ marginTop: "10px" }}
-            >
-              Fetch data
-            </LoadingButton>
-          </span>
-        </Tooltip>
-      </Link>
+      {data && (
+        <FetchMore
+          page={page}
+          setPage={setPage}
+          hasNextPage={hasNextPage}
+          pageInfo={data?.allJobs.pageInfo}
+          fetchMore={fetchMore}
+          networkStatus={networkStatus}
+        >
+          Fetch More Data
+        </FetchMore>
+      )}
     </Grid>
   );
 }
