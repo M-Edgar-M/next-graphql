@@ -4,13 +4,11 @@ import { Button, FormControlLabel, Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Link from "next/link";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import Login from "../components/Login";
 import Search from "../components/Search";
+import Signup from "../components/Signup";
 import { MaterialUISwitch } from "../features/mui/muiSwitchBtn";
 import { DARK_THEME } from "../features/utils/DARK_THEME";
 import { LIGHT_THEME } from "../features/utils/LIGHT_THEME";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { withApollo } from "../libs/apollo";
 
 const AppContext = createContext();
 const useStyles = makeStyles(
@@ -85,8 +83,9 @@ const Layout = ({ setState, children }) => {
           variant="outlined"
           onClick={handleOpen}
           sx={{ alignSelf: "center", marginTop: "-45px" }}
+          className={theme ? classes.buttonDark : classes.buttonLignt}
         >
-          Login
+          Signup
         </Button>
 
         {/* <Search setSearchRes={setSearchRes} /> */}
@@ -116,7 +115,7 @@ const Layout = ({ setState, children }) => {
         </Grid>
         <Grid item>
           {children}
-          <Login handleOpen={open} handleClose={handleClose} />
+          <Signup handleOpen={open} handleClose={handleClose} />
         </Grid>
       </Grid>
     </AppContext.Provider>

@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-function Login({ handleOpen, handleClose }) {
+function Signup({ handleOpen, handleClose }) {
   const classes = useStyles();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -26,7 +26,7 @@ function Login({ handleOpen, handleClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(firstName, lastName, email, password);
+    console.log({firstName, lastName, email, password});
     handleClose();
   };
 
@@ -76,4 +76,4 @@ function Login({ handleOpen, handleClose }) {
   );
 }
 
-export default Login;
+export default Signup;
